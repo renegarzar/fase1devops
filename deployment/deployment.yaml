@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: sky-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: sky-app
+  template:
+    metadata:
+      labels:
+        app: sky-app
+    spec:
+      containers:
+      - name: sky-app
+        image: sky-app:latest
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: cliente-storage
+          mountPath: /app/clientes
+      volumes:
+      - name: cliente-storage
+        persistentVolumeClaim:
+          claimName: cliente-pvc
